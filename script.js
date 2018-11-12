@@ -69,6 +69,8 @@ btn.addEventListener('click', function (e) {
         localStorage.setItem('items', JSON.stringify(itemsArray));
         //localStorage.removeItem("12");
 
+        a.setAttribute("contentEditable",false);
+
         //elem.parentNode.removeChild(elem);
         //var nodes = Array.prototype.slice.call(document.getElementById("list"));
         

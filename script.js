@@ -55,25 +55,23 @@ btn.addEventListener('click', function (e) {
     //adding linethrough if checkbox is checked
     if (elem.type === "checkbox") {
         elem.parentNode.style.textDecoration = "line-through";
-        // elem.style.visibility = "hidden";
-        //console.log(e);
+        elem.style.visibility = "hidden";
         
-        //var a = itemsArray.indexOf(elem);
-        var a = elem.parentNode;
-        var b = a.textContent;
-        var c = itemsArray.indexOf(b);
-        console.log(typeof itemsArray);
+        var a = elem.parentNode;//storing parent element in a
+        var b = a.textContent;//retrieving text and storing in b
+        var c = itemsArray.indexOf(b);//getting index number
+        //console.log(typeof itemsArray);
         
+        //removing retrieved item from array
         itemsArray.splice(c,1);
         
+        //updating local storage after removing one item
         localStorage.setItem('items', JSON.stringify(itemsArray));
-        //localStorage.removeItem("12");
-
-        //elem.parentNode.removeChild(elem);
-        //var nodes = Array.prototype.slice.call(document.getElementById("list"));
         
 
-        // itemsArray.splice(a,);
+        //when checked the item should not be editable
+        a.setAttribute("contentEditable",false);
+
     }
 });
 

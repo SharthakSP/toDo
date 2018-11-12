@@ -4,6 +4,7 @@ var ul = document.getElementById("list");
 var id = 0;
 var btn = document.getElementById("btn");
 var btnClr = document.getElementById("clear");
+
 //ternary operators && declaring empty array
 //localstorage key is stored as items
 let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
@@ -23,16 +24,28 @@ var liMaker = (text) => {
     var chkBox = document.createElement("input");
     chkBox.setAttribute("type", "checkbox");
     chkBox.setAttribute("id", `li_${id}`);
-    id++;
+    chkBox.setAttribute("contenteditable", false)
+
+
+    var btnEdt = document.createElement("button");
+    btnEdt.setAttribute("id", "btnEdt");
+    //btnEdt.setAttribute("type","submit");
+    btnEdt.setAttribute("contenteditable", false)
+    btnEdt.setAttribute("class", "btn btn-primary");
+    btnEdt.textContent = "Save Edit";
     //li.insertAdjacentHTML("beforeend", cb);
-    ul.appendChild(li);
 
     li.setAttribute("draggable", true);//making li items draggable
     li.setAttribute("ondragstart", "dragStarted(event)");
     li.setAttribute("ondragover", "draggingOver(event)");
     li.setAttribute("ondrop", "dropped(event)");
     li.setAttribute("contenteditable", true);//making contents editable 
+
+    ul.appendChild(li);
     li.appendChild(chkBox);
+    li.appendChild(btnEdt);
+
+    id++;
 }
 
 //event listerner "add" button is clicked
@@ -43,11 +56,14 @@ btn.addEventListener('click', function (e) {
     //setting local storage to new updated value
     localStorage.setItem('items', JSON.stringify(itemsArray));
     // var chkBox = document.getElementById("chkBox");
-
+    data.forEach(item => {
+        //display all existing stored information every time we open/refresh
+        liMaker(item);
+    });
 });
 
- //eventListener for checkbox
- ul.addEventListener("click", function (e) {
+//eventListener for checkbox
+ul.addEventListener("click", function (e) {
     var elem = e.target;
 
     //adding linethrough if checkbox is checked
@@ -56,21 +72,40 @@ btn.addEventListener('click', function (e) {
 
         elem.parentNode.style.textDecoration = "line-through";
         elem.style.visibility = "hidden";
-        
+
         var a = elem.parentNode;//storing parent element in a
         var b = a.textContent;//retrieving text and storing in b
         var c = itemsArray.indexOf(b);//getting index number
         //console.log(typeof itemsArray);
-        
+
         //removing retrieved item from array
-        itemsArray.splice(c,1);
-        
+        itemsArray.splice(c, 1);
+
         //updating local storage after removing one item
         localStorage.setItem('items', JSON.stringify(itemsArray));
-        
+
 
         //when checked the item should not be editable
-        a.setAttribute("contentEditable",false);
+        a.setAttribute("contentEditable", false);
+
+    }
+});
+
+
+//event Listener for button edit
+ul.addEventListener("click", function (e) {
+    var elem = e.target;
+
+    if (elem.id === "btnEdt") {
+        const a = elem.parentNode;
+        const b = a.firstChild.textContent;
+        const c = itemsArray.indexOf(b);
+
+        console.log(b);
+        console.log(c);
+
+        itemsArray[c] = b;
+        localStorage.setItem('items', JSON.stringify(itemsArray));
 
     }
 });
@@ -85,9 +120,9 @@ data.forEach(item => {
 //eventListener to clear all data from localStorage
 btnClr.addEventListener('click', function () {
     localStorage.clear();
-    // while (ul.firstChild) {
-    //     ul.removeChild(ul.firstChild);
-    // }
+    while (ul.firstChild) {
+        ul.removeChild(ul.firstChild);
+    }
 });
 
 

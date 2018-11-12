@@ -31,11 +31,8 @@ var liMaker = (text) => {
     li.setAttribute("ondragstart", "dragStarted(event)");
     li.setAttribute("ondragover", "draggingOver(event)");
     li.setAttribute("ondrop", "dropped(event)");
-    li.setAttribute("contenteditable", true);
+    li.setAttribute("contenteditable", true);//making contents editable 
     li.appendChild(chkBox);
-
-
-    //var check = document.getElementById("chkBox");
 }
 
 //event listerner "add" button is clicked
@@ -52,8 +49,11 @@ btn.addEventListener('click', function (e) {
  //eventListener for checkbox
  ul.addEventListener("click", function (e) {
     var elem = e.target;
+
     //adding linethrough if checkbox is checked
     if (elem.type === "checkbox") {
+
+
         elem.parentNode.style.textDecoration = "line-through";
         elem.style.visibility = "hidden";
         
@@ -85,9 +85,9 @@ data.forEach(item => {
 //eventListener to clear all data from localStorage
 btnClr.addEventListener('click', function () {
     localStorage.clear();
-    while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-    }
+    // while (ul.firstChild) {
+    //     ul.removeChild(ul.firstChild);
+    // }
 });
 
 
